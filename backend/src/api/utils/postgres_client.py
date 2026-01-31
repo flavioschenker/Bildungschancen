@@ -9,8 +9,7 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
     AsyncEngine,
 )
-from jai.core.observability import logger
-
+from api.utils.logging import logger
 
 class PostgresBase(DeclarativeBase):
     pass

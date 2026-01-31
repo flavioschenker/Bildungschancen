@@ -1,3 +1,14 @@
+**/*.env
+**/data
+**/node_modules
+**/.next/
+**/__pycache__/
+.DS_Store
+.vscode/
+**/build
+**/*.egg-info
+next-env.d.ts
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

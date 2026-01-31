@@ -5,6 +5,7 @@ import uuid
 from jai.core import generate_id, PostgresBase
 from jai.rag.enums import IngestionStatus, IngestionStage
 
+from api.utils import PostgresBase
 
 class Document(PostgresBase):
     __tablename__ = "documents"
