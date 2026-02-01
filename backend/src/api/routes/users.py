@@ -4,7 +4,7 @@ from api.utils import PostgresClient, WebsocketManager
 from api.schemas import UserRead, UserCreate, UserDetailRead
 
 
-router = APIRouter(prefix="/documents", tags=["Documents"])
+router = APIRouter(prefix="/users", tags=["Users"])
 
 
 @router.get("", response_model=list[UserRead])
