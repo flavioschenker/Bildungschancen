@@ -1,9 +1,29 @@
+### Get Users
+GET http://localhost:8000/users
+Content-Type: application/json
+
+### Get User
+GET http://localhost:8000/users/user_01kgzp4xkyezzqxj
+Content-Type: application/json
+
+### Create New User
 POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-  "first_name": "Bob",
-  "last_name": "Smith",
-  "email": "abc",
-  "password": "password"
+  "first_name": "Anna",
+  "last_name": "Schmidt",
+  "email": "anna.schmidt@example.com",
+  "password": "password",
+  "skill_ids": []
 }
+
+### Update User
+PATCH http://localhost:8000/users/user_01kgznqd4mzh5ep3
+
+{
+  "skill_ids": []
+}
+
+### Delete User
+DELETE http://localhost:8000/users/user_01kgzns0dzsxhyt1

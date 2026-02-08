@@ -48,7 +48,6 @@ class PostgresClient:
         session = self.session_factory()
         try:
             yield session
-            await session.commit()
         except Exception:
             await session.rollback()
             raise

@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from api.utils import PostgresClient, WebsocketManager
-from api.routes import router_users
+from api.routes import router_users, router_skills
 
 
 def create_app(
@@ -24,6 +24,7 @@ def create_app(
 
     app = FastAPI(title="JAI API", lifespan=lifespan)
     app.include_router(router_users)
+    app.include_router(router_skills)
 
     app.add_middleware(
         CORSMiddleware,
@@ -37,14 +38,8 @@ def create_app(
     )
 
     @app.get("/")
-    async def root():
-        return {
-            "app": "Bildungschance API",
-            "description": "JAI Central API",
-            "documentation": "/docs",
-            "status": "operational",
-            "version": "v1.0.0"
-        }
+    async def root() -> RedirectResponse:
+        return RedirectResponse(url="/docs", status_code=307)
 
     @app.get("/health")
     async def health():

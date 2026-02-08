@@ -12,10 +12,9 @@ class UserSkill(PostgresBase):
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    user: Mapped["User"] = relationship(back_populates="skills")
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+    user: Mapped["User"] = relationship(back_populates="skills")
 
+    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id"))
     skill: Mapped["Skill"] = relationship(back_populates="users")
-    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"))
 
-    description: Mapped[str | None] = mapped_column(Text)

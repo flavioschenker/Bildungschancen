@@ -1,0 +1,18 @@
+### Get Skills
+GET http://localhost:8000/skills
+Content-Type: application/json
+
+### Get Skill
+GET http://localhost:8000/skills/skill_01kgznpfwpa8w165
+Content-Type: application/json
+
+### Create New Skill
+POST http://localhost:8000/skills
+Content-Type: application/json
+
+{
+  "name": "Programming"
+}
+
+### Delete Skill
+DELETE http://localhost:8000/skills/skill_01kgznpsebchs0p2
