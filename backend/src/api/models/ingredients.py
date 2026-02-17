@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 from decimal import Decimal
-from sqlalchemy import ForeignKey, String, Numeric
+from sqlalchemy import ForeignKey, String, Numeric, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from api.utils import PostgresBase, generate_id
 
@@ -20,26 +20,26 @@ class Ingredient(PostgresBase):
     ingredient_id: Mapped[str] = mapped_column(String(30), unique=True, index=True, default=lambda: generate_id("ingredient"))
     name: Mapped[str]  = mapped_column(String(100), nullable=False)
 
-    # one to many relationships
+    # Many-to-One relationships
     category: Mapped["Category"] = relationship(back_populates="ingredients")
-    category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
+    category_id: Mapped[str] = mapped_column(ForeignKey("categories.category_id"))
 
     brand: Mapped["Brand"] = relationship(back_populates="ingredients")
-    brand_id: Mapped[int] = mapped_column(ForeignKey("brands.id"))
+    brand_id: Mapped[str] = mapped_column(ForeignKey("brands.brand_id"))
 
     base_unit: Mapped["Unit"] = relationship(back_populates="base_unit_ingredients")
-    base_unit_id: Mapped[int] = mapped_column(ForeignKey("units.id"))
+    base_unit_id: Mapped[str] = mapped_column(ForeignKey("units.unit_id"))
     base_quantity: Mapped[Decimal] = mapped_column(Numeric(10, 6))
 
     package_quantity: Mapped[Decimal] = mapped_column(Numeric(10, 6))
     source: Mapped["Source"] = relationship(back_populates="ingredients")
-    source_id: Mapped[int] = mapped_column(ForeignKey("sources.id"))
+    source_id: Mapped[str] = mapped_column(ForeignKey("sources.source_id"))
 
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
     currency: Mapped["Currency"] = relationship(back_populates="ingredients")
-    currency_id: Mapped[int] = mapped_column(ForeignKey("currencies.id"))
+    currency_id: Mapped[str] = mapped_column(ForeignKey("currencies.currency_id"))
 
-    # many to many relationships
+    # Many-to-Many relationships
     supported_units: Mapped[list["IngredientUnit"]] = relationship(back_populates="ingredient", cascade="all, delete-orphan")
     in_recipes: Mapped[list["RecipeIngredient"]] = relationship(back_populates="ingredient", cascade="all, delete-orphan") # Do not delete whole recipe items
 
@@ -52,3 +52,10 @@ class Ingredient(PostgresBase):
     fat_saturated: Mapped[Decimal] = mapped_column(Numeric(10, 6))
     fiber: Mapped[Decimal] = mapped_column(Numeric(10, 6))
     salt: Mapped[Decimal] = mapped_column(Numeric(10, 6))
+
+    created_at: Mapped[DateTime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    updated_at: Mapped[DateTime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )

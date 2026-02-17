@@ -9,3 +9,6 @@ class UserUpdate(BaseModel):
 
 class SkillUpdate(BaseModel):
     name: str
+
+class IngredientUpdate(BaseModel):
+    name: str

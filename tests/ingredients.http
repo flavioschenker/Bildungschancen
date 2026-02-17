@@ -1,0 +1,120 @@
+### Get All Ingredients
+GET http://localhost:8000/ingredients
+Content-Type: application/json
+### Get Ingredient
+GET http://localhost:8000/users/user_01kgzp4xkyezzqxj
+Content-Type: application/json
+### Create Ingredient
+POST http://localhost:8000/ingredients
+Content-Type: application/json
+
+{
+  "name": "Choco Drink High Protein",
+  "package_quantity": 500,
+  "price": 1.95,
+  "calories": 58,
+  "protein": 8,
+  "carbohydrates": 2.9,
+  "carbohydrates_sugar": 2.8,
+  "fat": 1.6,
+  "fat_saturated": 1,
+  "fiber": 0.0,
+  "salt": 0.08,
+  "category_id": "category_01khekmkqqjfgy15",
+  "brand_id": "brand_01khekvqem21fvhx",
+  "base_unit_id": "unit_01khejj0h3wtbtms",
+  "base_quantity": 100,
+  "source_id": "source_01khekwxefqnmbv4",
+  "currency_id": "currency_01khem47w5b7mjyf",
+  "supported_units_ids": []
+}
+### Update Ingredient
+PATCH http://localhost:8000/users/user_01kgznqd4mzh5ep3
+
+{
+  "skill_ids": []
+}
+### Delete Ingredient
+DELETE http://localhost:8000/users/user_01kgzns0dzsxhyt1
+
+#####################################################################
+### UNITS ###########################################################
+### get all
+GET http://localhost:8000/units
+### get specific
+GET http://localhost:8000/units/unit_01khejn4mvm876cy
+### create
+POST http://localhost:8000/units
+Content-Type: application/json
+
+{
+  "name": "pinch",
+  "symbol": "pn"
+}
+### delete
+DELETE http://localhost:8000/units/unit_01khejn4mvm876cy
+
+#####################################################################
+### CATEGORIES ######################################################
+### get all
+GET http://localhost:8000/categories
+### get specific
+GET http://localhost:8000/categories/category_01khekp78tmp43bx
+### create
+POST http://localhost:8000/categories
+Content-Type: application/json
+
+{
+  "name": "eggs"
+}
+### delete
+DELETE http://localhost:8000/categories/category_01khekqpcjrvzkjw
+
+#####################################################################
+### BRANDS ##########################################################
+### get all
+GET http://localhost:8000/brands
+### get specific
+GET http://localhost:8000/brands/brand_01khekv3rspn35tx
+### create
+POST http://localhost:8000/brands
+Content-Type: application/json
+
+{
+  "name": "HighProtein Coop"
+}
+### delete
+DELETE http://localhost:8000/brands/brand_01khekv3rspn35tx
+
+#####################################################################
+### SOURCES #########################################################
+### get all
+GET http://localhost:8000/sources
+### get specific
+GET http://localhost:8000/sources/source_01khekzbm3vgjwwx
+### create
+POST http://localhost:8000/sources
+Content-Type: application/json
+
+{
+  "name": "Denner"
+}
+### delete
+DELETE http://localhost:8000/sources/source_01khekzbm3vgjwwx
+
+#####################################################################
+### CURRENCIES ######################################################
+### get all
+GET http://localhost:8000/currencies
+### get specific
+GET http://localhost:8000/currencies/currency_01khem4prmkks3vc
+### create
+POST http://localhost:8000/currencies
+Content-Type: application/json
+
+{
+  "name": "Australian dollar",
+  "symbol": "AUD"
+}
+### delete
+DELETE http://localhost:8000/currencies/currency_01khem4prmkks3vc

@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 class RecipeIngredient(PostgresBase):
     __tablename__ = "recipe_ingredients"
-    __table_args__ = UniqueConstraint("ingredient_id", "recipe_id", name="uq_recipe_ingredient")
+    __table_args__ = (UniqueConstraint("ingredient_id", "recipe_id", name="uq_recipe_ingredient"),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
 

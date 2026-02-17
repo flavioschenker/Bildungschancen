@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 class IngredientUnit(PostgresBase):
     __tablename__ = "ingredient_units"
-    __table_args__ = UniqueConstraint("ingredient_id", "unit_id", name="uq_ingredient_unit")
+    __table_args__ = (UniqueConstraint("ingredient_id", "unit_id", name="uq_ingredient_unit"),)
     id: Mapped[int] = mapped_column(primary_key=True)
 
     ingredient: Mapped["Ingredient"] = relationship(back_populates="supported_units")

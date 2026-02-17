@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from api.utils import PostgresClient, WebsocketManager
-from api.routes import router_users, router_skills
+from api.routes import router_users, router_skills, router_ingredients, router_units, router_categories, router_brands, router_sources, router_currencies
 
 
 def create_app(
@@ -25,6 +25,12 @@ def create_app(
     app = FastAPI(title="JAI API", lifespan=lifespan)
     app.include_router(router_users)
     app.include_router(router_skills)
+    app.include_router(router_ingredients)
+    app.include_router(router_units)
+    app.include_router(router_categories)
+    app.include_router(router_brands)
+    app.include_router(router_sources)
+    app.include_router(router_currencies)
 
     app.add_middleware(
         CORSMiddleware,
