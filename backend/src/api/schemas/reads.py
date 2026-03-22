@@ -2,18 +2,13 @@ from pydantic import field_validator
 from api.schemas.base import UserBase, SkillBase, IngredientBase, UnitBase, CategoryBase, BrandBase, SourceBase, CurrencyBase
 from api.models import UserSkill, Category, Brand, Source, Currency
 
-class UserRead(UserBase):
-    user_id: str
 
-class UserDetail(UserRead):
-    skills: list[SkillRead]
-    @field_validator("skills", mode="before")
-    @classmethod
-    def flatten_skills(cls, v:list[UserSkill]):
-        return [i.skill for i in v]
 
 class SkillRead(SkillBase):
     skill_id: str
+
+class UserRead(UserBase):
+    user_id: str
 
 class SkillDetail(SkillRead):
     users: list[UserRead]
@@ -21,7 +16,15 @@ class SkillDetail(SkillRead):
     @classmethod
     def flatten_users(cls, v:list[UserSkill]):
         return [i.user for i in v]
-    
+
+
+
+class UserDetail(UserRead):
+    skills: list[SkillRead]
+    @field_validator("skills", mode="before")
+    @classmethod
+    def flatten_skills(cls, v:list[UserSkill]):
+        return [i.skill for i in v]    
 
 class IngredientRead(IngredientBase):
     base_unit: str
