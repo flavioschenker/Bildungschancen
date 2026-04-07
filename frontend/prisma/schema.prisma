@@ -13,4 +13,5 @@ model User {
   firstName String
   lastName String
   hashedPassword String
+  isOnboarding Boolean @default(true)
 }

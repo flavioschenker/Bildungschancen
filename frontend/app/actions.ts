@@ -40,6 +40,7 @@ export async function login(formData: FormData) {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      isOnboarding: user.isOnboarding,
       expires: expires
     }
     const session = await encrypt(sessionPayload);
@@ -75,21 +76,56 @@ export async function register(prevState: any, formData: FormData) {
   });
 
   if (existingUser) {
-    return { error: "User already exists" };
+    return {
+      success: false,
+      error: "An account with this email already exists.",
+      field: "email"
+    };
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   
+  let user;
   try {
-    await prisma.user.create({
+    user = await prisma.user.create({
       data: {
         email: email,
         hashedPassword: hashedPassword,
         firstName: firstName,
-        lastName: lastName
+        lastName: lastName,
+        isOnboarding: true
       },
     });
   } catch (error) {
-    return { error: "Database error during registration" };
+    console.error("Registration Error:", error);
+    return {
+      success: false,
+      error: "We encountered a problem creating your account. Please try again."
+    }; 
   }
-}
+
+  // autologin
+  const expires = new Date(Date.now() + 2 * 60 * 60 * 1000);
+  const sessionPayload = {
+    userId: user.id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    isOnboarding: user.isOnboarding,
+    expires
+  };
+
+  const session = await encrypt(sessionPayload);
+  (await cookies()).set({
+    name: "session",
+    value: session,
+    expires: expires,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+  });
+
+  // redirect to the onboarding process
+  redirect('/onboarding');
+}  

@@ -3,24 +3,44 @@ services:
   # 1. PostgreSQL Database
   # ------------------------------------------------------------------
   postgres:
-      container_name: PostgreSQL
-      networks:
-        - bc_network
-      image: postgres:latest
-      ports:
-        - "${POSTGRES_PORT}:5432"
-      volumes:
-        - ./data/postgres:/var/lib/postgresql
-      environment:
-        POSTGRES_USER: ${POSTGRES_USER}
-        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-        POSTGRES_DB: ${POSTGRES_DB}
-      restart: always
-      healthcheck:
-        test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
-        interval: 5s
-        timeout: 5s
-        retries: 3
+    container_name: PostgreSQL
+    networks:
+      - bc_network
+    image: postgres:latest
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    restart: always
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  # ------------------------------------------------------------------
+  # 2. pgAdmin (Web Interface)
+  # ------------------------------------------------------------------
+  pgadmin:
+    container_name: pgAdmin4
+    image: dpage/pgadmin4:latest
+    networks:
+      - bc_network
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "8080:80"
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 networks:
   bc_network:
+    driver: bridge
