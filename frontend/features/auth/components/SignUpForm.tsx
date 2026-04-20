@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link';
 import { useState } from "react"
-import { login } from '@/app/actions';
+import { login } from '@/features/auth/actions';
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

@@ -1,5 +1,5 @@
 import { getSession } from '@/lib/session';
-import { logout } from '@/app/actions';
+import { logout } from '@/features/auth/actions';
 import Link from 'next/link';
 
 export default async function Navbar() {

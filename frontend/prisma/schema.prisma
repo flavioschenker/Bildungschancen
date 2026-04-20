@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "./generated"
 }
 
 datasource db {
@@ -8,9 +8,69 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  firstName String
-  lastName String
-  hashedPassword String
+  id                  Int     @id @default(autoincrement())
+  email               String  @unique
+  firstName           String
+  lastName            String
+  hashedPassword      String
+  /// New signups start as false; existing rows default to true after migration.
+  onboardingCompleted Boolean @default(true)
+
+  skills Skill[]
+
+  outgoingRelationships UserRelationship[] @relation("RelationshipFrom")
+  incomingRelationships UserRelationship[] @relation("RelationshipTo")
+}
+
+enum Proficiency {
+  ENTRY
+  INTERMEDIATE
+  SENIOR
+  LEAD
+  PRINCIPAL
+}
+
+model Skill {
+  id     Int         @id @default(autoincrement())
+  name   String
+  level  Proficiency
+  userId Int
+  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+/// Directed link: the current user (`fromUser`) describes how they know `toUser`.
+model UserRelationship {
+  id         Int @id @default(autoincrement())
+  fromUserId Int
+  toUserId   Int
+
+  /// "Known" (acquaintance) vs friend circle.
+  kind      RelationshipKind
+  /// How close the connection feels, from casual to very close.
+  closeness ClosenessLevel
+
+  fromUser User @relation("RelationshipFrom", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser   User @relation("RelationshipTo", fields: [toUserId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([fromUserId, toUserId])
+  @@index([fromUserId])
+  @@index([toUserId])
+}
+
+enum RelationshipKind {
+  KNOWN
+  FRIEND
+}
+
+enum ClosenessLevel {
+  MET_FEW_TIMES
+  ACQUAINTANCE
+  CASUAL
+  CLOSE
+  VERY_CLOSE
 }

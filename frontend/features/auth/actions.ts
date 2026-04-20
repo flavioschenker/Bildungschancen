@@ -53,7 +53,7 @@ export async function login(formData: FormData) {
         path: '/',
     });
 
-    redirect('/dashboard');
+    redirect('/feed');
 }
 
 export async function logout() {

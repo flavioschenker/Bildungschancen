@@ -8,4 +8,4 @@
 **/build
 **/*.egg-info
 next-env.d.ts
-**/generated
+**/prisma/generated
